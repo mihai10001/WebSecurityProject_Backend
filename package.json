@@ -2,9 +2,9 @@
   "name": "websecurityproject_backend",
   "version": "1.0.0",
   "description": "Example of a simple authentication role based system",
-  "main": "app/index.js",
+  "main": "app/server.js",
   "scripts": {
-    "dev": "nodemon app/index.js",
+    "dev": "nodemon app/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
