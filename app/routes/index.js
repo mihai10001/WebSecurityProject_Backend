@@ -1,5 +1,5 @@
 const routes = require('./routes');
 
-module.exports = function(app, db) { 
-  routes(app, db);  
+module.exports = function(app, dbClient) { 
+  routes(app, dbClient);  
 };
