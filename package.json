@@ -1,0 +1,28 @@
+{
+  "name": "websecurityproject_backend",
+  "version": "1.0.0",
+  "description": "Example of a simple authentication role based system",
+  "main": "app/index.js",
+  "scripts": {
+    "dev": "nodemon app/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mihai10001/WebSecurityProject_Backend.git"
+  },
+  "author": "Mihai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mihai10001/WebSecurityProject_Backend/issues"
+  },
+  "homepage": "https://github.com/mihai10001/WebSecurityProject_Backend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
