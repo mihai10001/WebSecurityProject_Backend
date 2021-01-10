@@ -1,5 +1,7 @@
-const routes = require('./routes');
+const loginRoute = require('./loginRoute');
+//const authorizedRoutes = require('./authorizedRoutes')
 
 module.exports = function(app, dbClient) { 
-  routes(app, dbClient);  
+  loginRoute(app, dbClient);
+  //authorizedRoutes(app, dbClient);
 };
