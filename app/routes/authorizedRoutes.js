@@ -2,6 +2,24 @@ const checkTokenMiddleware = require('../checkTokenValidityMiddleware');
 
 module.exports = function(app, dbClient) {
 
+    app.get('/events', checkTokenMiddleware, (req, res) => {
+        dbClient.db('nodesecurityproject')
+            .collection('users')
+            .findOne({username: req.username}, (err, user) => {
+                if (err)
+                    res.status(400).send('DB error');
+
+                if (user) {
+                    dbClient.db('nodesecurityproject')
+                        .collection('events')
+                        .find({allowedUsers: user.userToEvent})
+                        .toArray()
+                        .then(allowedEventsArray => res.json(allowedEventsArray));
+                } else {
+                    res.status(400).send('User not found');
+                }
+            });
+    });
 
     app.post('/create-event', checkTokenMiddleware, (req, res) => {
         dbClient.db('nodesecurityproject')
