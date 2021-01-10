@@ -30,4 +30,3 @@ dbClient.connect((error, res) => {
 });
 
 module.exports = dbClient;
-
