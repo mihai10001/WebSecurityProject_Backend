@@ -4,7 +4,7 @@ module.exports = function(app, dbClient) {
 
     app.get('/events', checkTokenMiddleware, (req, res) => {
         dbClient.collection('users')
-            .findOne({username: req.username}, (err, user) => {
+            .findOne({username: req.decodedUsername}, (err, user) => {
                 if (err)
                     res.status(500).send('Internal server error: Db error');
                 else if (!user)
@@ -20,7 +20,7 @@ module.exports = function(app, dbClient) {
 
     app.post('/create-event', checkTokenMiddleware, (req, res) => {
         dbClient.collection('users')
-            .findOne({username: req.username}, (err, user) => {
+            .findOne({username: req.decodedUsername}, (err, user) => {
                 if (err)
                     res.status(500).send('Internal server error: Db error');
                 else if (!user)

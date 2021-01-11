@@ -15,7 +15,7 @@ function checkTokenValidityMiddleware(req, res, next) {
 
     // At this point, we are authenticated
     // Send decoded info. for further endpoints usage
-    req.username = decoded.username;
+    req.decodedUsername = decoded.username;
     next();
   });
 }
