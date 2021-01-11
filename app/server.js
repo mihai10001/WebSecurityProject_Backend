@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
-const dbClient = require('./dbConfig');
+const dbUtils = require('./dbUtils');
 
 const app = express();
 const port = 8000;
@@ -11,9 +11,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-// Routes/endpoints go here
-routes(app, dbClient);
+dbUtils.connectToServer((err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        // Routes/endpoints go here
+        routes(app, dbUtils.getConnectedDb());
 
-app.listen(port, () => {  
-    console.log('Hello world from ' + port);
+        // Start listening on default port
+        app.listen(port, () => {  
+            console.log('Hello world from ' + port);
+        });
+    }
 });
+
