@@ -5,29 +5,27 @@ const bcrypt = require('bcrypt');
 const bcryptSaltRounds = require('./config').bcryptSaltRounds;
 
 let connectedDb;
+let defaultUsers = [
+    {username: 'Blablabla1', password: 'uB>kHtLLDf9FE3u84'},
+    {username: 'Blablabla2', password: 'GFNHOhFvPD202L!vV'},
+    {username: 'Blablabla3', password: '<dZA*GX0pWOo1YGq<'},
+    {username: 'Blablabla4', password: 'jBvpJmJh2%)yk<OC]'},
+];
 
 // Seed default users for testing purposes
 // If users already found, don't add them
 const seedDefaultUsers = (connectedDb) => {
-    connectedDb.collection('users')
-        .findOne({username: 'test'}, (err, user) => {
-            if (!user)
-                bcrypt.hash('test', bcryptSaltRounds, function(err, hash) {
-                    connectedDb.collection('users').insertOne(
-                        {username: 'test', password: hash, userToEvent: new ObjectID()}
-                    );
-                });
-        });
-
-    connectedDb.collection('users')
-        .findOne({username: 'test2'}, (err, user) => {
-            if (!user)
-                bcrypt.hash('test2', bcryptSaltRounds, function(err, hash) {
-                    connectedDb.collection('users').insertOne(
-                        {username: 'test2', password: hash, userToEvent: new ObjectID()}
-                    );
-                });
-        });
+    for (const defaultUser of defaultUsers) {  
+        connectedDb.collection('users')
+            .findOne({username: defaultUser.username}, (err, user) => {
+                if (!user)
+                    bcrypt.hash(defaultUser.password, bcryptSaltRounds, function(err, hash) {
+                        connectedDb.collection('users').insertOne(
+                            {username: defaultUser.username, password: hash, userToEvent: new ObjectID()}
+                        );
+                    });
+            });
+    }
 };
 
 module.exports = {
