@@ -21,7 +21,7 @@ const seedDefaultUsers = (connectedDb) => {
                 if (!user)
                     bcrypt.hash(defaultUser.password, bcryptSaltRounds, function(err, hash) {
                         connectedDb.collection('users').insertOne(
-                            {username: defaultUser.username, password: hash, userToEvent: new ObjectID()}
+                            {username: defaultUser.username, password: hash, userToEvent: new ObjectID().toString()}
                         );
                     });
             });

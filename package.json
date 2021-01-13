@@ -4,6 +4,7 @@
   "description": "Example of a simple authentication role based system",
   "main": "app/server.js",
   "scripts": {
+    "start": "node app/server.js",
     "dev": "nodemon app/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +22,7 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongo-sanitize": "^1.1.0",
