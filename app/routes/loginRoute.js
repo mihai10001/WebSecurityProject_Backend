@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
 const secretKey = require('../config').secretKey;
 const bcrypt = require('bcrypt');
+var sanitize = require('mongo-sanitize');
 
 module.exports = function(app, dbClient) {
 
     app.post('/login', (req, res) => {
         // Read username and password from request body
-        const { username, password } = req.body;
+        const username = sanitize(req.body.username);
+        const password = sanitize(req.body.password);
 
         // This line should require more validation
         if (!username || !password) {

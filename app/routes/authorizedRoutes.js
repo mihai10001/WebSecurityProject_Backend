@@ -1,3 +1,4 @@
+var sanitize = require('mongo-sanitize');
 const checkTokenMiddleware = require('../checkTokenValidityMiddleware');
 
 module.exports = function(app, dbClient) {
@@ -23,11 +24,11 @@ module.exports = function(app, dbClient) {
                         .project({_id: 0})
                         .toArray()
                         .then(allowedEventsArray => {
-                            allowedEventsArray.forEach(function (item, i) {
-                                allowedEventsArray[i].allowedUsers = item.allowedUsers.length;
-                                if (i == allowedEventsArray.length - 1)
-                                    res.json(allowedEventsArray);
+                            const mappedEventsArray = allowedEventsArray.map(event => {
+                                event.allowedUsers = event.allowedUsers.length;
+                                return event;
                             });
+                            res.json(mappedEventsArray);
                         });
                 }
             });
@@ -35,11 +36,11 @@ module.exports = function(app, dbClient) {
 
     app.post('/create-event', checkTokenMiddleware, (req, res) => {
         // Read event information from request body
-        const title = req.body.title;
-        const description = req.body.description;
-        const startDate = req.body.startDate;
-        const endDate = req.body.endDate;
-        const allowedUsers = req.body.allowedUsers;
+        const title = sanitize(req.body.title);
+        const description = sanitize(req.body.description);
+        const startDate = sanitize(req.body.startDate);
+        const endDate = sanitize(req.body.endDate);
+        const allowedUsers = sanitize(req.body.allowedUsers);
 
         // This line should require more validation
         if (!title || !description || !description || !startDate || !endDate) {
