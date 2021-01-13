@@ -34,26 +34,36 @@ module.exports = function(app, dbClient) {
     });
 
     app.post('/create-event', checkTokenMiddleware, (req, res) => {
-        dbClient.collection('users')
-            .findOne({username: req.decodedUsername}, (err, user) => {
-                if (err)
-                    res.status(500).send('Internal server error: Db error');
-                else if (!user)
-                    res.status(404).send('User not found');
-                else if (user) {
-                    // Information regarding events will be sent by user, eg. startDate
-                    dbClient.collection('events')
-                        .insertOne({
-                            title: 'random',
-                            description: 'random',
-                            startDate: new Date(),
-                            endDate: new Date(),
-                            allowedUsers: [user.userToEvent]
-                        });
-                }
-            });
+        // Read event information from request body
+        const title = req.body.title;
+        const description = req.body.description;
+        const startDate = req.body.startDate;
+        const endDate = req.body.endDate;
+        const allowedUsers = req.body.allowedUsers;
 
-        res.sendStatus(200);
+        // This line should require more validation
+        if (!title || !description || !description || !startDate || !endDate) {
+            res.status(400).send('Bad request: Not all info. given');
+        } else {
+            dbClient.collection('users')
+                .findOne({username: req.decodedUsername}, (err, user) => {
+                    if (err)
+                        res.status(500).send('Internal server error: Db error');
+                    else if (!user)
+                        res.status(404).send('User not found');
+                    else if (user) {
+                        dbClient.collection('events')
+                            .insertOne({
+                                title: title,
+                                description: description,
+                                startDate: new Date(startDate),
+                                endDate: new Date(endDate),
+                                allowedUsers: [user.userToEvent].concat(allowedUsers)
+                            })
+                            .then(entry => res.status(200).send({ status: 'OK'}));
+                    }
+                });
+        }
     });
 
 }
