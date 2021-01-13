@@ -20,8 +20,15 @@ module.exports = function(app, dbClient) {
                 else if (user) {
                     dbClient.collection('events')
                         .find({allowedUsers: user.userToEvent})
+                        .project({_id: 0})
                         .toArray()
-                        .then(allowedEventsArray => res.json(allowedEventsArray));
+                        .then(allowedEventsArray => {
+                            allowedEventsArray.forEach(function (item, i) {
+                                allowedEventsArray[i].allowedUsers = item.allowedUsers.length;
+                                if (i == allowedEventsArray.length - 1)
+                                    res.json(allowedEventsArray);
+                            });
+                        });
                 }
             });
     });
