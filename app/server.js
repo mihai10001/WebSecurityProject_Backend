@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const routes = require('./routes');
 const dbUtils = require('./dbUtils');
 
@@ -10,6 +11,9 @@ const port = 8000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// enable cors, untill SPA/serving frontend from same process is implemented
+var corsOptions = { origin: 'http://localhost:4200' };
+app.use(cors(corsOptions));
 
 dbUtils.connectToServer((err) => {
     if (err) {
