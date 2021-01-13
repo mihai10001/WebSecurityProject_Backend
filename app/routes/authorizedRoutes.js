@@ -2,6 +2,14 @@ const checkTokenMiddleware = require('../checkTokenValidityMiddleware');
 
 module.exports = function(app, dbClient) {
 
+    app.get('/other-users', checkTokenMiddleware, (req, res) => {
+        dbClient.collection('users')
+            .find({username: {$ne : req.decodedUsername}})
+            .project({_id: 0, password: 0})
+            .toArray()
+            .then(otherUsersArray =>  res.json(otherUsersArray));
+    });
+
     app.get('/events', checkTokenMiddleware, (req, res) => {
         dbClient.collection('users')
             .findOne({username: req.decodedUsername}, (err, user) => {
