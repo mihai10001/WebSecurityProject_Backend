@@ -30,13 +30,10 @@ const seedDefaultUsers = (connectedDb) => {
 
 module.exports = {
     connectToServer: (callback) => {
-        MongoClient(dbUri, { 
-            useNewUrlParser: true, 
-            useUnifiedTopology: true,
-        }).connect((err, client) => {
+        MongoClient.connect('mongodb://db:27017/').then(client => {
             connectedDb = client.db('nodesecurityproject');
             seedDefaultUsers(connectedDb);
-            return callback(err);
+            return callback();
         });
     },
     getConnectedDb: () => {

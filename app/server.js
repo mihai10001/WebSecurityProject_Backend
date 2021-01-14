@@ -21,7 +21,6 @@ dbUtils.connectToServer((err) => {
     } else {
         // Routes/endpoints go here
         routes(app, dbUtils.getConnectedDb());
-
         // Start listening on default port
         app.listen(port, () => {  
             console.log('Hello world from ' + port);
