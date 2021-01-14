@@ -1,3 +1,4 @@
+require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 const dbUri = require('./config').dbUri;
@@ -5,12 +6,7 @@ const bcrypt = require('bcrypt');
 const bcryptSaltRounds = require('./config').bcryptSaltRounds;
 
 let connectedDb;
-let defaultUsers = [
-    {username: 'Blablabla1', password: 'uB>kHtLLDf9FE3u84'},
-    {username: 'Blablabla2', password: 'GFNHOhFvPD202L!vV'},
-    {username: 'Blablabla3', password: '<dZA*GX0pWOo1YGq<'},
-    {username: 'Blablabla4', password: 'jBvpJmJh2%)yk<OC]'},
-];
+let defaultUsers = process.env["DEFAULT_USERS_ARRAY"]
 
 // Seed default users for testing purposes
 // If users already found, don't add them
