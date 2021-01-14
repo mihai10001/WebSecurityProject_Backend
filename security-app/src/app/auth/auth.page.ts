@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-// import { Router } from '@angular/router';
-// import { AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,20 +10,24 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class AuthPage implements OnInit {
   userForm: any;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {
     this.userForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.authService.logout();
+  }
 
   login() {
     if (this.userForm.invalid) {
       return;
     }
-    //const username = this.userform.username;
-    //const password = this.userform.password;
+    this.authService.login(this.userForm.value.username, this.userForm.value.password);
   }
 }
