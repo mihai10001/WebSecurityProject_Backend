@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const bcryptSaltRounds = require('./config').bcryptSaltRounds;
 
 let connectedDb;
-let defaultUsers = process.env["DEFAULT_USERS_ARRAY"]
+let defaultUsers = JSON.parse(process.env["DEFAULT_USERS_ARRAY"]);
 
 // Seed default users for testing purposes
 // If users already found, don't add them
